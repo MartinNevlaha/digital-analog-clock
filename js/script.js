@@ -1,12 +1,10 @@
 class Time {
-
     actualTime() {
         const time = new Date;
         let hours = time.getHours();
         let minutes = time.getMinutes();
         let seconds = time.getSeconds();
         let currentTime = [hours, minutes, seconds]
-        console.log(currentTime)
         return currentTime;
     }
 }
@@ -20,13 +18,22 @@ class CalculateRotation {
         let minutesToDeg = minutes * (360 / 60);
         let secondsToDeg = seconds * (360 / 60);
         let timeToDeg = [hoursToDeg, minutesToDeg, secondsToDeg];
-        console.log(timeToDeg);
         return timeToDeg;
     }
 }
 class UpdateDisplay {
-    constructor(degrees) {
+    constructor(degrees, currentTime) {
         this.degrees = degrees;
+        this.currentTime = currentTime;
+    }
+    formatTime(timeParam) {
+        timeParam < 10 ? timeParam = '0' + timeParam : timeParam;
+        return timeParam;
+    }
+    renderDisplayDigital () {
+        const [hours, minutes, seconds] = this.currentTime;
+        const display = document.getElementById('time');
+        display.textContent = `${this.formatTime(hours)}:${this.formatTime(minutes)}:${this.formatTime(seconds)}`;
     }
     renderDisplay() {
         const [degHours, degMinutes, degSeconds] = this.degrees;
@@ -38,16 +45,39 @@ class UpdateDisplay {
         handSecond.style.setProperty('--rotation', degSeconds);
     }
 }
+class Desision {
 
+    showAnalog() {
+        const analog = document.querySelector('.analogClock');
+        const digital = document.querySelector('.clock');
+        digital.classList.remove('unvisible');
+        analog.classList.add('unvisible');
+    }
+    showDigital() {
+        const analog = document.querySelector('.analogClock');
+        const digital = document.querySelector('.clock');
+        analog.classList.remove('unvisible');
+        digital.classList.add('unvisible');
+    }
+    listener() {
+        const btnAnalog = document.querySelector('.analog');
+        const btnDigital = document.querySelector('.digital');
+        btnAnalog.addEventListener('click', this.showAnalog);
+        btnDigital.addEventListener('click', this.showDigital);
+    }
+}
 class App {
     static init() {
+        const desision = new Desision();
+        desision.listener();
         setInterval(()=>{
             const time = new Time();
             this.curTime = time.actualTime();
             const timeToDeg = new CalculateRotation(this.curTime);
             this.degrees = timeToDeg.calculate();
-            const updateDisp = new UpdateDisplay(this.degrees);
+            const updateDisp = new UpdateDisplay(this.degrees, this.curTime);
             updateDisp.renderDisplay();
+            updateDisp.renderDisplayDigital();
         },1000);
     }
 }

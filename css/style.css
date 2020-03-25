@@ -28,6 +28,9 @@ p, h3 {
     margin: 0;
     padding: 0;
 }
+h3 {
+    color: #28203D;
+}
 p:first-of-type {
     margin-top: 150px;
 }
@@ -59,6 +62,9 @@ h1 {
     color: white;
     font-size: 3rem;
     font-weight: 700;
+}
+.clock.unvisible {
+    display: none;
 }
 .clock {
     width: 500px;
@@ -135,4 +141,18 @@ h1 {
     --rotation:0;
     width: 5px;
     height: 30%;
+}
+.btn {
+    margin-top: 100px;
+    background: rgba(40, 32, 61, 0.575);
+    color: white;
+    padding: 5px 25px;
+    border-radius: 8px;
+}
+.btn:hover {
+    background: #28203D;
+    cursor: pointer;
+}
+.analogClock.unvisible {
+    display: none;
 }
